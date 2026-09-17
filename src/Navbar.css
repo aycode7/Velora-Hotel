@@ -1,0 +1,267 @@
+body
+{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 18px 0;
+  background: #0b1f3367;
+  transition: all 0.3s ease;
+}
+
+.navbar-scrolled {
+  background: #0b1f3367;
+  padding: 12px 0;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 25px rgba(11, 31, 51, 0.25);
+}
+
+.navbar-container {
+  width: min(1250px, 92%);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* LOGO */
+
+.navbar-logo {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  line-height: 1;
+}
+
+.logo-main {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #ffffff;
+}
+
+.logo-sub {
+  margin-top: 5px;
+  font-size: 14px;
+  letter-spacing: 3px;
+  color: #2a7f7f;
+  text-align: center;
+}
+
+/* DESKTOP LINKS */
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.navbar-links a {
+  position: relative;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  transition: color 0.25s ease;
+}
+
+.navbar-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -7px;
+  width: 0;
+  height: 2px;
+  background: #2a7f7f;
+  transition: width 0.25s ease;
+}
+
+.navbar-links a:hover {
+  color: #2a7f7f;
+  
+}
+
+.navbar-links a:hover::after {
+  width: 100%;
+}
+
+/* ACTIONS */
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.navbar-icon-link {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transition: all 0.25s ease;
+}
+
+.navbar-icon-link:hover {
+  color: #ffffff;
+  border-color: #2a7f7f;
+  transform: translateY(-3px);
+  background: #2a7f7f;
+}
+
+/* BOOK BUTTON */
+
+.book-btn {
+  padding: 12px 21px;
+  background: #2a7f7f;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border-radius: 5px;
+  border: 1px solid #2a7f7f;
+  transition: all 0.25s ease;
+}
+
+.book-btn:hover {
+  background: #ffffff;
+  color: #0b1f33;
+  border-color: #ffffff;
+  transform: translateY(-3px);
+}
+
+/* MOBILE BUTTON */
+
+.mobile-menu-btn {
+  display: none;
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  cursor: pointer;
+  padding: 5px;
+}
+
+/* MOBILE MENU */
+
+.mobile-menu {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .navbar-links,
+  .navbar-actions {
+    display: none;
+  }
+
+  .mobile-menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobile-menu {
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    display: block;
+    background: #0b1f33;
+    transition: max-height 0.35s ease;
+  }
+
+  .mobile-menu-open {
+    max-height: 500px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .mobile-links {
+    width: min(1250px, 92%);
+    margin: 0 auto;
+    padding: 20px 0 5px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mobile-links a {
+    padding: 14px 0;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: color 0.25s ease;
+  }
+
+  .mobile-links a:hover {
+    color: #2a7f7f;
+  }
+
+  .mobile-actions {
+    width: min(1250px, 92%);
+    margin: 0 auto;
+    padding: 18px 0 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .mobile-actions a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px;
+    color: #ffffff;
+    text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 14px;
+    transition: all 0.25s ease;
+  }
+
+  .mobile-actions a:hover {
+    color: #ffffff;
+    border-color: #2a7f7f;
+    background: #2a7f7f;
+  }
+
+  .mobile-actions .mobile-book-btn {
+    background: #2a7f7f;
+    color: #ffffff;
+    border-color: #2a7f7f;
+    font-weight: 600;
+  }
+
+  .mobile-actions .mobile-book-btn:hover {
+    background: #ffffff;
+    color: #0b1f33;
+    border-color: #ffffff;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 15px 0;
+  }
+
+  .navbar-scrolled {
+    padding: 11px 0;
+  }
+
+  .logo-main {
+    font-size: 24px;
+  }
+
+  .logo-sub {
+    font-size: 7px;
+    letter-spacing: 2.5px;
+  }
+}
