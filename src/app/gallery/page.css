@@ -22,7 +22,7 @@
 
 .gallery-hero-content {
   width: min(750px, 90%);
-  margin: 0 auto;
+  margin: 15px auto;
   padding: 100px 0;
   color: #ffffff;
 }

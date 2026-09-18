@@ -115,7 +115,7 @@ const page = () => {
           </p>
 
           <div className="hero-buttons">
-            <Link href="/booking" className="primary-btn">
+            <Link href="/rooms" className="primary-btn">
               Book Your Stay
               <ArrowRight size={17} />
             </Link>

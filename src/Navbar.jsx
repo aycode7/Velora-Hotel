@@ -60,9 +60,6 @@ const Navbar = () => {
             <MessageCircle size={18} />
           </a>
 
-          <Link href="/booking" className="book-btn">
-            Book a Room
-          </Link>
         </div>
 
         <button
