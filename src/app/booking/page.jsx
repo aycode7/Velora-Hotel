@@ -59,7 +59,7 @@ const rooms = {
   },
 };
 
-const Page = () => {
+const BookingPageContent = () => {
   const searchParams = useSearchParams();
   const roomId = searchParams.get("room");
 
@@ -361,9 +361,9 @@ const Page = () => {
 const BookingPage = () => {
   return (
     <Suspense fallback={<div className="booking-loading">Loading...</div>}>
-      <Page />
+      <BookingPageContent />
     </Suspense>
   );
 };
 
-export default Page;
+export default BookingPage;
