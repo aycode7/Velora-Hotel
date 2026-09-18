@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { Suspense, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { useMemo, useState } from "react";
 import {
   ArrowLeft,
   ArrowRight,
@@ -59,7 +59,7 @@ const rooms = {
   },
 };
 
-const page = () => {
+const Page = () => {
   const searchParams = useSearchParams();
   const roomId = searchParams.get("room");
 
@@ -327,9 +327,7 @@ const page = () => {
 
               <div className="summary-row">
                 <span>Price per night</span>
-                <strong>
-                  ₦{selectedRoom.price.toLocaleString()}
-                </strong>
+                <strong>₦{selectedRoom.price.toLocaleString()}</strong>
               </div>
 
               <div className="summary-row">
@@ -341,9 +339,7 @@ const page = () => {
 
               <div className="summary-total">
                 <span>Total</span>
-                <strong>
-                  ₦{total.toLocaleString()}
-                </strong>
+                <strong>₦{total.toLocaleString()}</strong>
               </div>
 
               <button type="button" className="confirm-booking-button">
@@ -362,4 +358,12 @@ const page = () => {
   );
 };
 
-export default page;
+const BookingPage = () => {
+  return (
+    <Suspense fallback={<div className="booking-loading">Loading...</div>}>
+      <Page />
+    </Suspense>
+  );
+};
+
+export default Page;
