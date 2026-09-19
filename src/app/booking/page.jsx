@@ -16,6 +16,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import "./page.css";
+import { supabase } from "@/lib/supabase"
 
 const rooms = {
   "deluxe-room": {
@@ -60,6 +61,12 @@ const rooms = {
 };
 
 const BookingPageContent = () => {
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [bookingMessage, setBookingMessage] = useState("");
+  const [bookingError, setBookingError] = useState("");
+
+
   const searchParams = useSearchParams();
   const roomId = searchParams.get("room");
 
@@ -85,6 +92,90 @@ const BookingPageContent = () => {
       ...prev,
       [name]: value,
     }));
+  };
+
+  const handleBooking = async () => {
+    setBookingMessage("");
+    setBookingError("");
+
+    if (!checkIn || !checkOut) {
+      setBookingError("Please select your check-in and check-out dates.");
+      return;
+    }
+
+    if (nights <= 0) {
+      setBookingError("Check-out must be after check-in.");
+      return;
+    }
+
+    if (!guestDetails.fullName || !guestDetails.email || !guestDetails.phone) {
+      setBookingError("Please fill in your name, email, and phone number.");
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+
+      const selectedRoomId = roomId || "deluxe-room";
+
+      // Check if the room is already booked for these dates
+      const { data: existingBookings, error: availabilityError } =
+        await supabase
+          .from("bookings")
+          .select("id")
+          .eq("room_id", selectedRoomId)
+          .neq("status", "cancelled")
+          .lt("check_in", checkOut)
+          .gt("check_out", checkIn);
+
+      if (availabilityError) {
+        throw availabilityError;
+      }
+
+      if (existingBookings && existingBookings.length > 0) {
+        setBookingError(
+          "Sorry, this room is not available for the selected dates. Please choose different dates or kindly choose a different room."
+        );
+        return;
+      }
+
+      // Create the booking
+      const { data: booking, error } = await supabase
+      .from("bookings")
+      .insert({
+        room_id: selectedRoomId,
+        check_in: checkIn,
+        check_out: checkOut,
+        guests: Number(guests),
+        full_name: guestDetails.fullName,
+        email: guestDetails.email,
+        phone: guestDetails.phone,
+        special_requests: guestDetails.requests || null,
+        total_amount: total,
+        status: "pending",
+      })
+      .select("id")
+      .single();
+
+    if (error) {
+      console.error("SUPABASE INSERT ERROR:", JSON.stringify(error, null, 2));
+      throw new Error(error.message || "Booking insert failed");
+    }
+
+    if (!booking?.id) {
+      throw new Error("Booking was created but no booking ID was returned.");
+    }
+
+    window.location.href = `/booking/confirmation?booking=${booking.id}`;
+    } catch (error) {
+      console.error("Booking error:", error);
+
+      setBookingError(
+        "Something went wrong while checking availability. Please try again."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const calculateNights = () => {
@@ -342,10 +433,23 @@ const BookingPageContent = () => {
                 <strong>₦{total.toLocaleString()}</strong>
               </div>
 
-              <button type="button" className="confirm-booking-button">
-                Confirm Booking
-                <ArrowRight size={18} />
+              <button
+                type="button"
+                className="confirm-booking-button"
+                onClick={handleBooking}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Submitting..." : "Confirm Booking"}
+                {!isSubmitting && <ArrowRight size={18} />}
               </button>
+
+              {bookingMessage && (
+                <p className="booking-success-message">{bookingMessage}</p>
+              )}
+
+              {bookingError && (
+                <p className="booking-error-message">{bookingError}</p>
+              )}
 
               <p className="summary-note">
                 You’ll review your reservation before it is confirmed.
